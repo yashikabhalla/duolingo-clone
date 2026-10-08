@@ -8,7 +8,7 @@ from datetime import date, datetime, timedelta
 
 from app import models as m
 from app.database import Base, SessionLocal, engine
-
+from app.services.clock import real_today
 
 # ---------- tiny builders: one per exercise type ----------
 # Each returns a dict that matches the columns of the `exercises` table.
@@ -211,7 +211,7 @@ def seed_achievements(db):
 
 def seed_demo_user(db, first_lesson, achievements):
     """The default logged-in learner: finished one lesson today, so the app isn't empty."""
-    today = date.today()
+    today = real_today()
     user = m.User(name="Demo Learner", total_xp=10, streak_count=1,
                   last_active_date=today, hearts=5, gems=500, daily_goal_xp=20)
     db.add(user)
@@ -225,7 +225,7 @@ def seed_demo_user(db, first_lesson, achievements):
 def seed_rivals(db):
     """Fake users with XP over the last 7 days, so the leaderboard has real data."""
     random.seed(42)  # same "random" numbers every run -> reproducible demo
-    today = date.today()
+    today = real_today()
     for name in RIVAL_NAMES:
         days_active = random.sample(range(7), k=random.randint(3, 7))
         week_xp = 0

@@ -128,3 +128,10 @@ class UserAchievement(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
     achievement_id: Mapped[int] = mapped_column(ForeignKey("achievements.id"))
     earned_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class AppSetting(Base):
+    """Tiny key/value table. We use it to store the simulated-day offset for testing streaks."""
+    __tablename__ = "app_settings"
+    key: Mapped[str] = mapped_column(String(50), primary_key=True)
+    value: Mapped[str] = mapped_column(String(200))
