@@ -30,7 +30,12 @@ export default function RightPanel() {
         <p className="mb-4 mt-1 text-[15px] font-bold text-wolf">
           No ads, personalized practice, and unlimited Legendary!
         </p>
-        <Button variant="blue" fullWidth onClick={() => toast("Super is coming soon!")}>
+        <Button
+          variant="blue"
+          fullWidth
+          onClick={() => toast("Super is coming soon!")}
+          className="!bg-[#3F4DF5] !shadow-[0_4px_0_#3B23E3]"
+        >
           Try 1 week free
         </Button>
       </Card>
@@ -38,21 +43,32 @@ export default function RightPanel() {
       <Card>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-extrabold">Daily Quests</h2>
-          <Link href="/quests" className="text-sm font-extrabold uppercase tracking-wider text-macaw">
+          <Link
+            href="/quests"
+            className="text-sm font-extrabold uppercase tracking-wider text-macaw"
+          >
             View all
           </Link>
         </div>
+
         <div className="flex items-center gap-3">
           <span className="text-3xl">⚡</span>
+
           <div className="flex-1">
-            <p className="mb-1.5 font-extrabold">{goal ? `Earn ${goal} XP` : "Earn XP"}</p>
+            <p className="mb-1.5 font-extrabold">
+              {goal ? `Earn ${goal} XP` : "Earn XP"}
+            </p>
+
             <ProgressBar
               color="yellow"
               value={goal ? (done / goal) * 100 : 0}
               label={goal ? `${done} / ${goal}` : undefined}
             />
           </div>
-          <span className="text-3xl">{user?.daily_goal_met ? "🎁" : "🔒"}</span>
+
+          <span className="text-3xl">
+            {user?.daily_goal_met ? "🎁" : "🔒"}
+          </span>
         </div>
       </Card>
     </div>
