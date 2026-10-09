@@ -123,13 +123,18 @@ export default function SkillNode({ skill, theme, offset, isCurrent, open, onTog
           {completed ? <CheckIcon /> : <StarIcon className={locked ? "text-[#b7b7b7]" : "text-white"} />}
         </button>
 
-        {/* mascot flourish next to the current node (on whichever side has more room) */}
-        {isCurrent && (
-          <Mascot
-            size={84}
-            className={cn("absolute top-1/2 hidden -translate-y-1/2 sm:block", offset > 0 ? "right-full mr-8" : "left-full ml-8")}
-          />
-        )}
+       {isCurrent && (
+  <div
+    className={cn(
+      "absolute top-[145%] hidden -translate-y-1/2 sm:block",
+      offset > 0 ? "right-full mr-20" : "left-full ml-20",
+    )}
+  >
+    <div className="duo-idle">
+      <Mascot size={96} />
+    </div>
+  </div>
+)}
       </div>
 
       {open && (

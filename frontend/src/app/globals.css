@@ -140,3 +140,27 @@ html.dark .text-wolf {
 html.dark .text-hare {
   color: #71838a !important;
 }
+
+@keyframes duo-idle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-5px) rotate(-7deg);
+  }
+
+  50% {
+    transform: translateY(0) rotate(7deg);
+  }
+
+  75% {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+}
+
+.duo-idle {
+  animation: duo-idle 2.5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
