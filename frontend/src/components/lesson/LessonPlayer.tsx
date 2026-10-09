@@ -28,6 +28,7 @@ export default function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const [quitOpen, setQuitOpen] = useState(false);
   const [refilling, setRefilling] = useState(false);
   const [completion, setCompletion] = useState<Completion>({ status: "saving" });
+  const [nextLessonId, setNextLessonId] = useState<number | null>(null);
 
   const exercise = state.queue[state.index];
   const canCheck = state.phase === "answering" && state.answer !== null;
@@ -55,15 +56,33 @@ export default function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const handleSkip = () => void submit(""); // an empty answer is always wrong, so Skip counts as a mistake
 
   async function finishLesson() {
-    setCompletion({ status: "saving" });
+  setCompletion({ status: "saving" });
+
+  try {
+    const result = await api.completeLesson(lesson.id, state.mistakes);
+
+    setCompletion({ status: "done", result });
+
+    await refresh();
+
     try {
-      const result = await api.completeLesson(lesson.id, state.mistakes);
-      setCompletion({ status: "done", result });
-      await refresh(); // streak, XP and hearts in the shared user state are now outdated
+      const path = await api.getPath();
+      const nextLesson = path.units
+        .flatMap((unit) => unit.skills)
+        .find(
+          (skill) =>
+            skill.status === "available" &&
+            skill.next_lesson_id !== null,
+        );
+
+      setNextLessonId(nextLesson?.next_lesson_id ?? null);
     } catch {
-      setCompletion({ status: "error" });
+      setNextLessonId(null);
     }
+  } catch {
+    setCompletion({ status: "error" });
   }
+}
 
   function handleContinue() {
     if (state.phase !== "feedback") return;
@@ -111,11 +130,14 @@ export default function LessonPlayer({ lesson }: { lesson: Lesson }) {
   if (state.phase === "complete") {
     return (
       <LessonComplete
-        completion={completion}
-        accuracy={accuracy}
-        onContinue={() => router.push("/learn")}
-        onRetry={() => void finishLesson()}
-      />
+  completion={completion}
+  accuracy={accuracy}
+  nextLessonId={nextLessonId}
+  onContinue={() =>
+    router.push(nextLessonId ? `/lesson/${nextLessonId}` : "/learn")
+  }
+  onRetry={() => void finishLesson()}
+/>
     );
   }
 
