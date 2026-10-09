@@ -17,7 +17,7 @@ type ShowToast = (message: string, variant?: ToastVariant) => void;
 const ToastContext = createContext<ShowToast | null>(null);
 
 const styles: Record<ToastVariant, string> = {
-  info: "bg-eel text-polar dark:bg-swan dark:text-eel",
+  info: "toast-info",
   success: "bg-feather text-white",
   error: "bg-cardinal text-white",
 };

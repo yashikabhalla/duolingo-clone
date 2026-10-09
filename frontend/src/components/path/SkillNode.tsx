@@ -165,10 +165,10 @@ export default function SkillNode({ skill, theme, offset, isCurrent, open, onTog
             <Link
               href={`/lesson/${skill.next_lesson_id}`}
               className={cn(
-                "block rounded-2xl bg-white py-3 text-center text-[15px] font-extrabold uppercase tracking-wider",
-                "shadow-[0_4px_0_rgba(0,0,0,0.2)] active:translate-y-1 active:shadow-none",
-                completed ? "text-[#e5b400]" : theme.text,
-              )}
+  "skill-start-button block rounded-2xl bg-white py-3 text-center text-[15px] font-extrabold uppercase tracking-wider",
+  "shadow-[0_4px_0_rgba(0,0,0,0.2)] active:translate-y-1 active:shadow-none",
+  completed ? "text-[#e5b400]" : theme.text,
+)}
             >
               {completed ? "Practice" : "Start"}
             </Link>
