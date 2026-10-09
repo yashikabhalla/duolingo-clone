@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* ===== Design tokens: Duolingo palette, shadows and animations =====
    Anything defined in @theme becomes a Tailwind utility automatically:
@@ -73,9 +74,69 @@
 @layer base {
   body {
     @apply bg-white font-sans text-eel antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
+
   button:not(:disabled),
   a {
     cursor: pointer;
   }
+
+  /* ===== Dark mode ===== */
+  html.dark body {
+  background-color: #202020;
+  color: #f5f5f5;
+}
+
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+/* ===== Dark mode component overrides ===== */
+
+html.dark {
+  --color-eel: #f1f5f6;
+  --color-wolf: #aebdc2;
+  --color-hare: #71838a;
+  --color-swan: #30434a;
+  --color-polar: #1d2b30;
+}
+
+html.dark .bg-white {
+  background-color: #171717 !important;
+}
+
+/* ===== Dark mode component overrides ===== */
+
+html.dark {
+  --color-eel: #f1f5f6;
+  --color-wolf: #aebdc2;
+  --color-hare: #71838a;
+  --color-swan: #30434a;
+  --color-polar: #202020;
+}
+
+html.dark .bg-white {
+  background-color: #202020 !important;
+}
+
+html.dark .bg-polar {
+  background-color: #202020 !important;
+}
+
+html.dark .border-swan {
+  border-color: #30434a !important;
+}
+
+html.dark .text-eel {
+  color: #f1f5f6 !important;
+}
+
+html.dark .text-wolf {
+  color: #aebdc2 !important;
+}
+
+html.dark .text-hare {
+  color: #71838a !important;
 }

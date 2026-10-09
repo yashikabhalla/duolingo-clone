@@ -16,24 +16,36 @@ const PAIR_COLORS = [
 ];
 
 /**
- * Tap a word on the left, then its match on the right. When every word is paired, CHECK unlocks
- * and the whole set is verified by the server at once. (The real app checks pair-by-pair; we check
- * all at once so that the correct pairing never has to be sent to the browser.)
+ * Tap a word on the left, then its match on the right.
+ * Spanish words on the right are automatically pronounced when selected.
  */
 export default function MatchPairs({ exercise, disabled, onAnswerChange }: ExerciseProps) {
   const { left, right } = exercise.data as unknown as MatchData;
-  const [pairs, setPairs] = useState<Record<string, string>>({}); // left word -> right word
+  const [pairs, setPairs] = useState<Record<string, string>>({});
   const [activeLeft, setActiveLeft] = useState<string | null>(null);
 
   function update(next: Record<string, string>) {
     setPairs(next);
-    onAnswerChange(Object.keys(next).length === left.length ? next : null); // null until complete
+    onAnswerChange(Object.keys(next).length === left.length ? next : null);
+  }
+
+  function speakSpanish(word: string) {
+    if (!("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "es-ES";
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.speak(utterance);
   }
 
   function clickLeft(word: string) {
     if (disabled) return;
+
     if (word in pairs) {
-      // tapping an already-paired word undoes that pair
       const { [word]: removed, ...rest } = pairs;
       void removed;
       update(rest);
@@ -45,14 +57,21 @@ export default function MatchPairs({ exercise, disabled, onAnswerChange }: Exerc
 
   function clickRight(word: string) {
     if (disabled) return;
+
+    // Pronounce the Spanish word when it is selected.
+    speakSpanish(word);
+
     const owner = Object.keys(pairs).find((l) => pairs[l] === word);
+
     if (owner) {
       const { [owner]: removed, ...rest } = pairs;
       void removed;
       update(rest);
       return;
     }
+
     if (activeLeft === null) return;
+
     update({ ...pairs, [activeLeft]: word });
     setActiveLeft(null);
   }
@@ -71,6 +90,7 @@ export default function MatchPairs({ exercise, disabled, onAnswerChange }: Exerc
   return (
     <div>
       <ExercisePrompt>{exercise.prompt}</ExercisePrompt>
+
       <div className="grid grid-cols-2 gap-x-4 gap-y-3">
         <div className="flex flex-col gap-3">
           {left.map((word, i) => (
@@ -85,9 +105,11 @@ export default function MatchPairs({ exercise, disabled, onAnswerChange }: Exerc
             </button>
           ))}
         </div>
+
         <div className="flex flex-col gap-3">
           {right.map((word) => {
             const owner = Object.keys(pairs).find((l) => pairs[l] === word);
+
             return (
               <button
                 key={word}

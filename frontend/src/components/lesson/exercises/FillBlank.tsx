@@ -8,13 +8,40 @@ import ExercisePrompt from "./ExercisePrompt";
 import type { ExerciseProps, FillBlankData } from "./types";
 import WordChip from "./WordChip";
 
-export default function FillBlank({ exercise, disabled, onAnswerChange }: ExerciseProps) {
-  const { before, after, options } = exercise.data as unknown as FillBlankData;
+export default function FillBlank({
+  exercise,
+  disabled,
+  onAnswerChange,
+}: ExerciseProps) {
+  const { before, after, options } =
+    exercise.data as unknown as FillBlankData;
   const [selected, setSelected] = useState<string | null>(null);
+
+  function speakSpanish(word: string) {
+    if (!("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "es-ES";
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.speak(utterance);
+  }
 
   function update(next: string | null) {
     setSelected(next);
     onAnswerChange(next);
+  }
+
+  function selectOption(option: string) {
+    if (disabled) return;
+
+    // Automatically pronounce the Spanish word when selected.
+    speakSpanish(option);
+
+    update(option);
   }
 
   return (
@@ -30,7 +57,9 @@ export default function FillBlank({ exercise, disabled, onAnswerChange }: Exerci
           onClick={() => update(null)}
           className={cn(
             "mx-1 inline-block min-w-[110px] border-b-2 px-2 text-center align-bottom",
-            selected ? "rounded-xl border-2 border-swan bg-white text-eel" : "border-hare text-transparent",
+            selected
+              ? "rounded-xl border-2 border-swan bg-white text-eel"
+              : "border-hare text-transparent",
           )}
         >
           {selected ?? "blank"}
@@ -45,7 +74,7 @@ export default function FillBlank({ exercise, disabled, onAnswerChange }: Exerci
             label={option}
             disabled={disabled}
             used={selected === option}
-            onClick={() => update(option)}
+            onClick={() => selectOption(option)}
           />
         ))}
       </div>
