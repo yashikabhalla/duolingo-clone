@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { cn } from "@/lib/cn";
+
 import Mascot from "@/components/ui/Mascot";
 
 import ExercisePrompt from "./ExercisePrompt";

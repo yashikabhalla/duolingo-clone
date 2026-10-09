@@ -1,32 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/cn";
 
 import { NAV_ITEMS } from "./navItems";
 
+function subscribe(callback: () => void) {
+  window.addEventListener("duolingo-theme-change", callback);
+  window.addEventListener("storage", callback);
+
+  return () => {
+    window.removeEventListener("duolingo-theme-change", callback);
+    window.removeEventListener("storage", callback);
+  };
+}
+
+function getThemeSnapshot() {
+  return localStorage.getItem("duolingo-theme") === "dark";
+}
+
+function getServerThemeSnapshot() {
+  return false;
+}
+
 export default function Sidebar() {
   const pathname = usePathname();
-  const [dark, setDark] = useState(false);
+
+  const dark = useSyncExternalStore(
+    subscribe,
+    getThemeSnapshot,
+    getServerThemeSnapshot,
+  );
 
   useEffect(() => {
-    const saved = localStorage.getItem("duolingo-theme");
-
-    if (saved === "dark") {
-      document.documentElement.classList.add("dark");
-      setDark(true);
-    }
-  }, []);
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
 
   function toggleDarkMode() {
     const next = !dark;
 
-    setDark(next);
     document.documentElement.classList.toggle("dark", next);
     localStorage.setItem("duolingo-theme", next ? "dark" : "light");
+
+    window.dispatchEvent(new Event("duolingo-theme-change"));
   }
 
   return (

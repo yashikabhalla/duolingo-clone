@@ -59,5 +59,6 @@ export const api = {
   refillHearts: () => post<User>("/api/hearts/refill"),
   getLeaderboard: () => request<LeaderboardEntry[]>("/api/leaderboard"),
   getAchievements: () => request<Achievement[]>("/api/achievements"),
+  getToday: () => request<DebugDay>("/api/debug/today"),
   advanceDay: () => post<DebugDay>("/api/debug/advance-day"),
 };
