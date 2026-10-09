@@ -6,6 +6,7 @@ from ..deps import get_current_user
 from ..models import Exercise, Lesson, User
 from ..schemas import AnswerIn, AnswerOut, CompleteIn, CompleteOut, ExerciseOut, LessonOut
 from ..services import answers, clock, hearts, path, rewards
+from ..services.presentation import present_exercise_data
 
 router = APIRouter(prefix="/api/lessons", tags=["lessons"])
 
@@ -28,9 +29,14 @@ def get_lesson(lesson_id: int, user: User = Depends(get_current_user),
                db: Session = Depends(get_db)):
     lesson = _playable_lesson(db, user, lesson_id)
     # ExerciseOut has no correct_answer field, so it is stripped from the response.
+    # present_exercise_data() also shuffles options and hides the match-pair pairing.
+    exercises = [
+        ExerciseOut(id=e.id, type=e.type, prompt=e.prompt, data=present_exercise_data(e),
+                    order_index=e.order_index)
+        for e in lesson.exercises
+    ]
     return LessonOut(id=lesson.id, skill_id=lesson.skill_id, skill_title=lesson.skill.title,
-                     xp_reward=lesson.xp_reward,
-                     exercises=[ExerciseOut.model_validate(e) for e in lesson.exercises])
+                     xp_reward=lesson.xp_reward, hearts=user.hearts, exercises=exercises)
 
 
 @router.post("/{lesson_id}/answer", response_model=AnswerOut)

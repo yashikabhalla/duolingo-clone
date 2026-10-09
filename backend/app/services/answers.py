@@ -23,7 +23,8 @@ def check_answer(exercise: Exercise, answer) -> tuple[bool, str]:
         return (isinstance(answer, list) and answer == words, " ".join(words))
 
     if kind == "match_pairs":
-        return (isinstance(answer, dict) and answer == correct["pairs"], "")
+        shown = ", ".join(f"{en} = {es}" for en, es in correct["pairs"].items())
+        return (isinstance(answer, dict) and answer == correct["pairs"], shown)
 
     if kind == "type_answer":
         accepted = correct["accepted"]

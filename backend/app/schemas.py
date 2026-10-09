@@ -66,6 +66,7 @@ class LessonOut(BaseModel):
     skill_id: int
     skill_title: str
     xp_reward: int
+    hearts: int
     exercises: list[ExerciseOut]
 
 

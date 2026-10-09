@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ===== Design tokens: Duolingo palette, shadows and animations =====
+   Anything defined in @theme becomes a Tailwind utility automatically:
+   --color-feather  ->  bg-feather, text-feather, border-feather ...
+   --shadow-3d-feather -> shadow-3d-feather                                  */
+@theme {
+  /* greens */
+  --color-feather: #58cc02;
+  --color-feather-dark: #58a700;
+  --color-mask: #89e219;
+  /* blues */
+  --color-macaw: #1cb0f6;
+  --color-macaw-dark: #1899d6;
+  --color-ice: #ddf4ff;
+  --color-ice-border: #84d8ff;
+  /* reds, oranges, yellows, purple */
+  --color-cardinal: #ff4b4b;
+  --color-cardinal-dark: #ea2b2b;
+  --color-fox: #ff9600;
+  --color-bee: #ffc800;
+  --color-bee-dark: #e5b400;
+  --color-beetle: #ce82ff;
+  /* grays (text + borders) */
+  --color-eel: #4b4b4b;
+  --color-wolf: #777777;
+  --color-hare: #afafaf;
+  --color-swan: #e5e5e5;
+  --color-polar: #f7f7f7;
+  /* feedback bar backgrounds */
+  --color-correct-bg: #d7ffb8;
+  --color-wrong-bg: #ffdfe0;
+
+  /* the chunky "3D" bottom edge of buttons */
+  --shadow-3d-feather: 0 4px 0 #58a700;
+  --shadow-3d-macaw: 0 4px 0 #1899d6;
+  --shadow-3d-cardinal: 0 4px 0 #ea2b2b;
+  --shadow-3d-swan: 0 2px 0 #e5e5e5;
+
+  --animate-pop-in: pop-in 0.18s ease-out;
+  --animate-slide-up: slide-up 0.25s ease-out;
+  --animate-slide-down: slide-down 0.25s ease-out;
+  --animate-float: float 1.6s ease-in-out infinite;
+  --animate-confetti: confetti-fall 3s linear forwards;
+
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes slide-down {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+    @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+    @keyframes confetti-fall {
+    from { transform: translateY(-10vh) rotate(0deg); }
+    to { transform: translateY(105vh) rotate(720deg); }
+  }
+}
+
+/* the font variable is set by next/font in layout.tsx, so reference it "inline" */
+@theme inline {
+  --font-sans: var(--font-nunito), "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-white font-sans text-eel antialiased;
+  }
+  button:not(:disabled),
+  a {
+    cursor: pointer;
+  }
+}
