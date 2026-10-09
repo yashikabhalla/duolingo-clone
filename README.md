@@ -1,8 +1,10 @@
 # Duolingo Clone
 
-A full-stack Duolingo-inspired language learning application built as an assignment.
+A full-stack Duolingo-inspired language learning application built as an SDE assignment.
 
 The project includes a visual learning path, interactive lessons, gamification, persistent progress, achievements, leaderboard, and responsive UI.
+
+---
 
 ## Features
 
@@ -20,7 +22,7 @@ The project includes a visual learning path, interactive lessons, gamification, 
 - Achievements
 - Profile and progress tracking
 - Dark mode
-- Browser-based pronunciation using Web Speech API
+- Browser-based pronunciation using the Web Speech API
 - Next-lesson navigation after completion
 - Developer date simulation for testing streaks and daily goals
 
@@ -31,12 +33,14 @@ Spanish is the currently implemented course. Authentication, payments, social fe
 ## Tech Stack
 
 ### Frontend
+
 - Next.js 16
 - React 19
 - TypeScript
 - Tailwind CSS
 
 ### Backend
+
 - Python
 - FastAPI
 - SQLAlchemy
@@ -44,6 +48,7 @@ Spanish is the currently implemented course. Authentication, payments, social fe
 - Uvicorn
 
 ### Database
+
 - SQLite
 
 ---
@@ -83,12 +88,15 @@ Spanish is the currently implemented course. Authentication, payments, social fe
 │ User Progress           │
 │ XP / Achievements       │
 └─────────────────────────┘
-
+```
 
 The frontend handles UI state and user interaction, while the backend is the source of truth for lesson validation and persistent progress.
 
+---
+
 ## Project Structure
 
+```text
 duolingo-clone/
 │
 ├── backend/
@@ -97,15 +105,18 @@ duolingo-clone/
 │   │   ├── models.py
 │   │   ├── schemas.py
 │   │   ├── main.py
+│   │   │
 │   │   ├── routers/
 │   │   │   ├── course.py
 │   │   │   ├── debug.py
 │   │   │   ├── leaderboard.py
 │   │   │   ├── lessons.py
 │   │   │   └── user.py
+│   │   │
 │   │   └── services/
 │   │       ├── answers.py
 │   │       └── presentation.py
+│   │
 │   ├── seed.py
 │   └── requirements.txt
 │
@@ -114,12 +125,18 @@ duolingo-clone/
 │   │   ├── app/
 │   │   ├── components/
 │   │   └── lib/
+│   │
 │   ├── package.json
 │   └── .env.local
 │
 └── README.md
+```
+
+---
 
 ## Database Schema
+
+```text
 Course
   │
   └── Unit
@@ -137,46 +154,52 @@ User
   └── UserAchievement ─────► Achievement
 
 AppSetting
+```
 
-## Main Tables
-| Table                | Purpose                     |
-|----------------------|-----------------------------|
-| `Course`             | Language/course information |
-| `Unit`               | Groups related skills       |
-| `Skill`              | Learning skill within a unit|
-| `Lesson`             | Playable lesson             |
-| `Exercise`           | Individual lesson exercises |
-| `User`               | Learner gamification state  |
-| `UserLessonProgress` | Completed lesson progress   |
-| `DailyXP`            | XP earned per day           |
-| `Achievement`        | Available achievements      |
-| `UserAchievement`.   | Earned achievements         |
-| `AppSetting`         | Application-level settings  |
+### Main Tables
 
+| Table | Purpose |
+|---|---|
+| `Course` | Language/course information |
+| `Unit` | Groups related skills |
+| `Skill` | Learning skill within a unit |
+| `Lesson` | Playable lesson |
+| `Exercise` | Individual lesson exercises |
+| `User` | Learner gamification state |
+| `UserLessonProgress` | Completed lesson progress |
+| `DailyXP` | XP earned per day |
+| `Achievement` | Available achievements |
+| `UserAchievement` | Earned achievements |
+| `AppSetting` | Application-level settings |
 
-Exercise-specific data is stored as JSON so the same Exercise table can support different exercise types.
+Exercise-specific data is stored as JSON so the same `Exercise` table can support different exercise types.
+
+---
 
 ## API Overview
-| Method | Endpoint                            | Purpose                        |
-|--------|-------------------------------------|--------------------------------|
-| GET    | `/api/health`                       | Backend health check           |
-| GET    | `/api/user`                         | Get current learner data       |
-| POST   | `/api/hearts/refill`                | Refill hearts using gems.      |
-| GET    | `/api/achievements`                 | Get achievements               |
-| GET    | `/api/course/path`                  | Get learning path              |
-| GET    | `/api/lessons/{lesson_id}`          | Get a playable lesson          |
-| POST   | `/api/lessons/{lesson_id}/answer`   | Submit an exercise answer      |
-| POST   | `/api/lessons/{lesson_id}/complete` | Complete a lesson              |
-| GET    | `/api/leaderboard`                  | Get weekly leaderboard         |
-| POST   | `/api/debug/advance-day`            | Simulate next day              |
-| GET    | `/api/debug/today`                  | Get simulated application date |
 
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/api/health` | Backend health check |
+| `GET` | `/api/user` | Get current learner data |
+| `POST` | `/api/hearts/refill` | Refill hearts using gems |
+| `GET` | `/api/achievements` | Get achievements |
+| `GET` | `/api/course/path` | Get learning path |
+| `GET` | `/api/lessons/{lesson_id}` | Get a playable lesson |
+| `POST` | `/api/lessons/{lesson_id}/answer` | Submit an exercise answer |
+| `POST` | `/api/lessons/{lesson_id}/complete` | Complete a lesson |
+| `GET` | `/api/leaderboard` | Get weekly leaderboard |
+| `POST` | `/api/debug/advance-day` | Simulate next day |
+| `GET` | `/api/debug/today` | Get simulated application date |
 
 The backend validates lesson answers and enforces lesson availability before allowing a lesson to be played.
+
+---
 
 ## Seed Data
 
 The project includes seed data for a Spanish course containing:
+
 - 2 units
 - 4 skills
 - Lessons covering all five exercise types
@@ -185,6 +208,7 @@ The project includes seed data for a Spanish course containing:
 - 1 demo learner
 
 The demo learner starts with:
+
 - 10 XP
 - 1-day streak
 - 5 hearts
@@ -192,50 +216,91 @@ The demo learner starts with:
 - 20 XP daily goal
 - First lesson completed
 
-## Setup
-1. Clone the repository
+---
 
+## Setup
+
+### 1. Clone the Repository
+
+```bash
 git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd duolingo-clone
+```
 
-2. Start the backend
+### 2. Start the Backend
 
+Open a terminal and run:
+
+```bash
 cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python seed.py
 uvicorn app.main:app --reload
+```
 
 Backend:
-http://localhost:8000
 
-3. Start the frontend
+```text
+http://localhost:8000
+```
+
+Health check:
+
+```text
+http://localhost:8000/api/health
+```
+
+### 3. Start the Frontend
 
 Open another terminal:
+
+```bash
 cd frontend
 npm install
+```
 
-Create .env.local:
+Create `.env.local`:
+
+```env
 NEXT_PUBLIC_API_URL=http://localhost:8000
+```
 
-Then:
+Then start the development server:
+
+```bash
 npm run dev
+```
 
 Frontend:
-http://localhost:3000
 
+```text
+http://localhost:3000
+```
+
+---
 
 ## Database Reset
+
 To reset the local database to the seeded demo state:
+
+```bash
 cd backend
 python seed.py
+```
 
 This recreates the database tables and seed data.
-Note: this is destructive and will reset the current local progress.
+
+**Note:** This is a destructive operation and will reset the current local progress.
+
+---
 
 ## Deployment
+
 The intended deployment setup is:
+
+```text
 Vercel
    │
    │ API requests
@@ -244,20 +309,32 @@ Render / Railway
    │
    ▼
 FastAPI + SQLite
+```
 
-## Frontend
+### Frontend
+
 Deploy the Next.js application to Vercel and configure:
-NEXT_PUBLIC_API_URL=<DEPLOYED_BACKEND_URL>
 
-## Backend
+```env
+NEXT_PUBLIC_API_URL=<DEPLOYED_BACKEND_URL>
+```
+
+### Backend
+
 Deploy the FastAPI application to Render or Railway.
+
 The backend CORS configuration should allow the deployed frontend origin.
 
-## SQLite
+### SQLite
+
 SQLite is used for assignment simplicity and local development.
-Some free hosting environments may use ephemeral filesystems, so SQLite should not be considered production-grade persistent storage in that environment.
+
+Some free hosting environments may use ephemeral filesystems, so SQLite should not be considered production-grade persistent storage in that environment. A managed database such as PostgreSQL would be more appropriate for production.
+
+---
 
 ## Assumptions and Scope
+
 - Authentication is simplified to a seeded demo learner.
 - Spanish is the currently populated course.
 - Exercise answers are validated by the backend.
@@ -266,8 +343,12 @@ Some free hosting environments may use ephemeral filesystems, so SQLite should n
 - Payments/Super and social functionality are mocked or represented as placeholders.
 - Debug date endpoints are included to test streak and daily-goal behavior.
 
+---
+
 ## Testing
+
 The main flows have been manually tested, including:
+
 - All five exercise types
 - Correct and incorrect answers
 - Heart loss and refill
@@ -280,19 +361,19 @@ The main flows have been manually tested, including:
 - Next-lesson navigation
 - Dark mode
 - Developer day simulation
+
 The frontend also passes linting and the production build.
 
+---
+
 ## Future Improvements
-PostgreSQL for production persistence
-Real authentication
-More language courses
-Real Super/payment integration
-Social features
-Speech recognition
-Automated unit/integration tests
-End-to-end testing
-Production monitoring
 
-
-
-
+- PostgreSQL for production persistence
+- Real authentication
+- More language courses
+- Real Super/payment integration
+- Social features
+- Speech recognition
+- Automated unit/integration tests
+- End-to-end testing
+- Production monitoring
