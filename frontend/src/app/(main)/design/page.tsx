@@ -26,8 +26,8 @@ const SWATCHES: Array<[string, string]> = [
   ["ice", "bg-ice"],
 ];
 
-// A visual test page for the design system: handy for checking components, and a nice thing to
-// show in the interview. It is not linked from the app navigation.
+// A visual test page for the design system: handy for checking components
+// It is not linked from the app navigation.
 export default function DesignPage() {
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(40);
