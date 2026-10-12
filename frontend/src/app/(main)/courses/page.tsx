@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
+//language array
 const LANGUAGES = [
   { name: "Spanish", flag: "🇪🇸", available: true },
   { name: "French", flag: "🇫🇷", available: false },
@@ -17,7 +18,7 @@ export default function CoursesPage() {
   function showComingSoon(language: string) {
     setMessage(`${language} course coming soon!`);
 
-    window.setTimeout(() => {
+    window.setTimeout(() => { // message will show for 2.5s
       setMessage("");
     }, 2500);
   }
@@ -37,7 +38,7 @@ export default function CoursesPage() {
 
         <div className="mx-auto grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {LANGUAGES.map((language) => {
-            if (language.available) {
+            if (language.available) { //if language is available , we will create navigation link
               return (
                 <Link
                   key={language.name}
@@ -64,7 +65,7 @@ export default function CoursesPage() {
 
             return (
               <button
-                key={language.name}
+                key={language.name} //create a button which will onclick show the message for coming soon calling showComingSoon fun
                 type="button"
                 onClick={() => showComingSoon(language.name)}
                 className="flex min-h-[205px] flex-col items-center justify-center rounded-3xl border-2 border-swan bg-white p-5 text-center shadow-[0_5px_0_rgba(0,0,0,0.08)] transition hover:-translate-y-1 hover:shadow-[0_8px_0_rgba(0,0,0,0.08)] dark:bg-[#202020]"
@@ -88,8 +89,8 @@ export default function CoursesPage() {
           })}
         </div>
       </div>
-
-      {message && (
+      
+      {message && ( //conditional rendering : if message exits show this <div>
         <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2 rounded-2xl bg-white px-6 py-4 text-sm font-extrabold text-[#202020] shadow-[0_5px_0_rgba(0,0,0,0.18)]">
           {message}
         </div>
