@@ -7,9 +7,9 @@ import OptionCard from "./OptionCard";
 import type { ExerciseProps, OptionsData } from "./types";
 
 export default function MultipleChoice({
-  exercise,
-  disabled,
-  onAnswerChange,
+  exercise,//question + options
+  disabled,//whether user can select
+  onAnswerChange,//callback to parent
 }: ExerciseProps) {
   const { options } = exercise.data as unknown as OptionsData;
   const [selected, setSelected] = useState<string | null>(null);
@@ -17,8 +17,8 @@ export default function MultipleChoice({
   function choose(option: string) {
     if (disabled) return;
 
-    setSelected(option);
-    onAnswerChange(option);
+    setSelected(option);//update local state
+    onAnswerChange(option);//parent can then store the answer and eventually submit it to the backend.
 
     // Automatically pronounce the selected option
     if ("speechSynthesis" in window) {
@@ -38,8 +38,8 @@ export default function MultipleChoice({
       <ExercisePrompt>{exercise.prompt}</ExercisePrompt>
 
       <div className="flex flex-col gap-3">
-        {options.map((option, i) => (
-          <OptionCard
+        {options.map((option, i) => (//rendering all options
+          <OptionCard//creates the option cards
             key={option}
             label={option}
             hint={i + 1}
