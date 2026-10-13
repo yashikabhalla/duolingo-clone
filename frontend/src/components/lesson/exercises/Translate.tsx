@@ -11,12 +11,12 @@ import WordChip from "./WordChip";
 
 /** Word-bank translation: tap words to build the sentence, tap them again to take them back. */
 export default function Translate({
-  exercise,
-  disabled,
-  onAnswerChange,
+  exercise,//question + word-bank data
+  disabled,//prevents interaction after submission
+  onAnswerChange,//sends the constructed answer to the parent
 }: ExerciseProps) {
   const { sentence, word_bank } = exercise.data as unknown as TranslateData;
-  const [picked, setPicked] = useState<number[]>([]);
+  const [picked, setPicked] = useState<number[]>([]);//stores index
 
   function speakSpanish(word: string) {
     if (!("speechSynthesis" in window)) return;
@@ -32,8 +32,8 @@ export default function Translate({
   }
 
   function update(next: number[]) {
-    setPicked(next);
-    onAnswerChange(
+    setPicked(next);//Updates local UI state
+    onAnswerChange( //Converts indexes into actual words and sends them to the parent
       next.length > 0 ? next.map((i) => word_bank[i]) : null
     );
   }
@@ -84,7 +84,7 @@ export default function Translate({
 
       {/* Spanish word bank */}
       <div className="flex flex-wrap justify-center gap-2">
-        {word_bank.map((word, i) => (
+        {word_bank.map((word, i) => ( //displays every available word
           <WordChip
             key={i}
             label={word}
