@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-
+//Suspense allows React to display a fallback UI while something inside is waiting/loading.
 import LessonScreen from "@/components/lesson/LessonScreen";
 import Mascot from "@/components/ui/Mascot";
 
@@ -18,3 +18,5 @@ export default function LessonPage() {
     </Suspense>
   );
 }
+//The lesson ID comes dynamically from the URL and is read inside LessonScreen using useParams.
+// Suspense provides a fallback UI while LessonScreen is being resolved.
