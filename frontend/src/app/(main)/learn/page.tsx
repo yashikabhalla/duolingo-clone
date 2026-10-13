@@ -30,17 +30,16 @@ export default function LearnPage() {
   const [openSkillId, setOpenSkillId] = useState<number | null>(null);
   const toast = useToast();
 
-  // Close the open popover on any outside click or Escape. (SkillNode stops propagation
-  // for clicks on its own button/popover, so those never reach this listener.)
-  useEffect(() => {
-    if (openSkillId === null) return;
-    const close = () => setOpenSkillId(null);
-    const onKey = (e: KeyboardEvent) => {
+  // Close the open popover on any outside click or Escape.
+  useEffect(() => {//To register global click and keyboard listeners that close the open skill popup.
+    if (openSkillId === null) return; // if no skill opened return
+    const close = () => setOpenSkillId(null); //this function closes the popup setting openSkillIs to null
+    const onKey = (e: KeyboardEvent) => {//if escape key is pressed close()
       if (e.key === "Escape") close();
     };
     document.addEventListener("click", close);
     document.addEventListener("keydown", onKey);
-    return () => {
+    return () => {  //The cleanup function removes event listeners that were added by the effect
       document.removeEventListener("click", close);
       document.removeEventListener("keydown", onKey);
     };
@@ -48,19 +47,19 @@ export default function LearnPage() {
 
   if (loading) return <PathSkeleton />;
 
-  if (error || !path) {
-    return (
+  if (error || !path) { // error exists OR path does not exist
+    return (//user sees an error message and a retry button.
       <Card className="flex flex-col items-center gap-3 py-8 text-center">
         <p className="text-lg font-extrabold">We couldn&apos;t load your path</p>
         <p className="font-bold text-wolf">{error}</p>
-        <Button onClick={retry}>Try again</Button>
+        <Button onClick={retry}>Try again</Button> 
       </Card>
     );
   }
 
   // Position of every skill in the whole course (0, 1, 2 ...) so the snake continues across units.
   const allSkills = path.units.flatMap((u) => u.skills);
-  const positionById = new Map(allSkills.map((s, i) => [s.id, i]));
+  const positionById = new Map(allSkills.map((s, i) => [s.id, i])); // skill ID -> position
   // "Current" = the first skill that is available (not locked, not finished yet).
   const currentSkillId = allSkills.find((s) => s.status === "available")?.id;
 
