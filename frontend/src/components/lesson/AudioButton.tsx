@@ -3,9 +3,9 @@
 import { useEffect } from "react";
 
 interface AudioButtonProps {
-  text: string;
-  language?: string;
-  label?: string;
+  text: string;//What should be spoken
+  language?: string;//Speech language
+  label?: string;//Text shown on button
 }
 
 export default function AudioButton({
