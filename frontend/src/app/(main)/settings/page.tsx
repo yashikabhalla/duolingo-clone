@@ -1,7 +1,7 @@
 import DevTools from "@/components/settings/DevTools";
 import Card from "@/components/ui/Card";
 
-// Placeholder rows: the assignment allows "Coming soon" for settings.
+// Placeholder rows: "Coming soon" for settings.
 const PLACEHOLDER_SETTINGS = [
   { label: "Daily goal", hint: "Choose how much XP you want per day" },
   { label: "Notifications", hint: "Practice reminders" },
