@@ -1,5 +1,5 @@
 import type { AnswerValue, Exercise } from "@/lib/types";
-
+//defines the common props and the data shapes for all exercise components
 /** Every exercise component takes exactly these props, so the player can treat them all alike.
  *  An exercise keeps its own selection in local state and reports it upward through onAnswerChange
  *  (null = "nothing usable chosen yet", which keeps the CHECK button disabled). */
