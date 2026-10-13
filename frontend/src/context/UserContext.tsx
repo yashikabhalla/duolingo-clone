@@ -19,12 +19,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async () => { 
     try {
-      setUser(await api.getUser());
-      setError(null);
+      setUser(await api.getUser());//Give me the latest user data
+      setError(null);//if successful no error
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not load user");
+      setError(e instanceof Error ? e.message : "Could not load user");//if fails error is stored so ui can display
     }
   }, []);
 
