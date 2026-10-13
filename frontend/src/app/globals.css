@@ -70,7 +70,7 @@
 @theme inline {
   --font-sans: var(--font-nunito), "Helvetica Neue", Arial, sans-serif;
 }
-
+/*define base/global element styles */
 @layer base {
   body {
     @apply bg-white font-sans text-eel antialiased;
