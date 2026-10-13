@@ -18,6 +18,7 @@ def compute_path(db: Session, user_id: int) -> dict:
     if course is None:
         raise LookupError("No course found - did you run seed.py?")
 
+    # creates a set of lesson IDs that the user has completed
     done = {r.lesson_id for r in db.query(UserLessonProgress.lesson_id).filter(
         UserLessonProgress.user_id == user_id)}
 
