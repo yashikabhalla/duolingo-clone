@@ -25,8 +25,9 @@ export default function MatchPairs({ exercise, disabled, onAnswerChange }: Exerc
   const [activeLeft, setActiveLeft] = useState<string | null>(null);
 
   function update(next: Record<string, string>) {
-    setPairs(next);
-    onAnswerChange(Object.keys(next).length === left.length ? next : null);
+    setPairs(next);//updates the component's local state
+    onAnswerChange(Object.keys(next).length === left.length ? next : null);//checks the length
+    //The component only sends the answer to the parent when all pairs have been matched
   }
 
   function speakSpanish(word: string) {
@@ -60,11 +61,12 @@ export default function MatchPairs({ exercise, disabled, onAnswerChange }: Exerc
 
     // Pronounce the Spanish word when it is selected.
     speakSpanish(word);
-
+    //Check whether this right word is already matched
     const owner = Object.keys(pairs).find((l) => pairs[l] === word);
+    
 
     if (owner) {
-      const { [owner]: removed, ...rest } = pairs;
+      const { [owner]: removed, ...rest } = pairs;//if already matched, remove that pair
       void removed;
       update(rest);
       return;
@@ -79,8 +81,8 @@ export default function MatchPairs({ exercise, disabled, onAnswerChange }: Exerc
   function tileClass(colorIndex: number | null, active: boolean) {
     return cn(
       "w-full rounded-2xl border-2 border-b-4 p-4 text-center text-lg font-bold transition-colors",
-      colorIndex !== null
-        ? PAIR_COLORS[colorIndex % PAIR_COLORS.length]
+      colorIndex !== null 
+        ? PAIR_COLORS[colorIndex % PAIR_COLORS.length] //allows the color to repeat
         : active
           ? "border-macaw bg-ice text-macaw"
           : "border-swan bg-white text-eel enabled:hover:bg-polar",
