@@ -1,11 +1,11 @@
 import { cn } from "@/lib/cn";
-
+//It creates one selectable answer option
 interface OptionCardProps {
-  label: string;
+  label: string;//Answer text
   hint: number; // the little 1 / 2 / 3 badge
-  selected: boolean;
-  disabled: boolean;
-  onSelect: () => void;
+  selected: boolean;//Whether this option is currently selected
+  disabled: boolean;//Whether user can click it
+  onSelect: () => void;//Function to execute when clicked
 }
 
 /** A big tappable answer row: grey outline normally, blue when selected. */
