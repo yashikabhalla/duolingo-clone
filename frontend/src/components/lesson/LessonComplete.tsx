@@ -5,16 +5,16 @@ import type { CompleteResult } from "@/lib/types";
 import Confetti from "./Confetti";
 
 export type Completion =
-  | { status: "saving" }
-  | { status: "error" }
+  | { status: "saving" }//frontend is sending the completion request to the backend
+  | { status: "error" }//Something went wrong while saving progress
   | { status: "done"; result: CompleteResult };
 
 interface LessonCompleteProps {
   completion: Completion;
-  accuracy: number;
+  accuracy: number;//Percentage of answers answered correctly
   nextLessonId: number | null;
   onContinue: () => void;
-  onRetry: () => void;
+  onRetry: () => void;//Called if saving failed
 }
 
 const CARD_STYLES = {
