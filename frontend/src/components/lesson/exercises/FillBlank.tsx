@@ -20,23 +20,23 @@ export default function FillBlank({
   function speakSpanish(word: string) {
     if (!("speechSynthesis" in window)) return;
 
-    window.speechSynthesis.cancel();
+    window.speechSynthesis.cancel(); //stops any previous speech
 
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = "es-ES";
-    utterance.rate = 0.85;
-    utterance.pitch = 1;
+    utterance.lang = "es-ES"; //spanish
+    utterance.rate = 0.85;//speech speed
+    utterance.pitch = 1;//pitch
 
-    window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance); //speaks the word
   }
 
   function update(next: string | null) {
-    setSelected(next);
-    onAnswerChange(next);
+    setSelected(next); // updates the components local state
+    onAnswerChange(next);//notifies the parent component
   }
 
   function selectOption(option: string) {
-    if (disabled) return;
+    if (disabled) return; //If the exercise is disabled, don't allow selection
 
     // Automatically pronounce the Spanish word when selected.
     speakSpanish(option);
@@ -54,7 +54,7 @@ export default function FillBlank({
         <button
           type="button"
           disabled={disabled || selected === null}
-          onClick={() => update(null)}
+          onClick={() => update(null)} //if user clicks the selected word the word goes back to being a blank.
           className={cn(
             "mx-1 inline-block min-w-[110px] border-b-2 px-2 text-center align-bottom",
             selected
